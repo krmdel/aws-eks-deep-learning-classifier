@@ -70,9 +70,7 @@ def root():
     return {"message": "Clothing Classification Service"}
 
 
-@app.get("/health")
-def health():
-    return {"status": "healthy"}
+
 
 
 @app.post("/predict", response_model=PredictResponse)

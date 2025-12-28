@@ -9,8 +9,13 @@ uvicorn = "*"
 onnxruntime = "*"
 keras-image-helper = "*"
 numpy = "*"
+pytest = "*"
 
 [dev-packages]
+pytest = "*"
+httpx = "*"
+pytest-asyncio = "*"
+pylint = "*"
 
 [requires]
 python_version = "3.13"

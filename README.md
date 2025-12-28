@@ -275,7 +275,48 @@ kubectl get nodes -o wide
 
 ## Testing
 
-### 1. Test Health Endpoint
+### Unit and Integration Tests (pytest)
+
+#### Setup Test Dependencies
+
+```bash
+# Install test dependencies
+pipenv install --dev
+
+# Or install manually
+pipenv install pytest httpx pytest-asyncio
+```
+
+#### Run Tests
+
+```bash
+# Run all tests
+pytest
+
+# Run with verbose output
+pytest -v
+
+# Run specific test file
+pytest tests/test_health.py
+
+# Run specific test
+pytest tests/test_predict.py::test_predict_endpoint_success
+
+# Run with coverage (if pytest-cov is installed)
+pytest --cov=app --cov-report=html
+```
+
+#### Test Structure
+
+- `tests/test_health.py` - Health check endpoint tests
+- `tests/test_predict.py` - Prediction endpoint tests
+- `tests/test_integration.py` - Integration tests
+- `tests/test_model.py` - Model loading and configuration tests
+- `tests/conftest.py` - Shared pytest fixtures
+
+### Manual API Testing
+
+#### 1. Test Health Endpoint
 
 ```bash
 # Using LoadBalancer
@@ -288,9 +329,9 @@ curl http://localhost:8080/health
 curl http://<NODE_IP>:30080/health
 ```
 
-### 2. Test Prediction Endpoint
+#### 2. Test Prediction Endpoint
 
-#### Using Python Script
+##### Using Python Script
 
 ```bash
 # Update test.py with your endpoint
@@ -299,7 +340,7 @@ python test.py
 
 The `test.py` script automatically detects the LoadBalancer endpoint.
 
-#### Using curl
+##### Using curl
 
 ```bash
 curl -X POST http://<ENDPOINT>/predict \
@@ -307,7 +348,7 @@ curl -X POST http://<ENDPOINT>/predict \
   -d '{"url": "http://bit.ly/mlbookcamp-pants"}'
 ```
 
-### 3. Load Testing
+### Load Testing
 
 ```bash
 # Run load test
