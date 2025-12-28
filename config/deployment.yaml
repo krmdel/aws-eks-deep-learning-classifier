@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clothing-classifier-deployment
+  labels:
+    app: clothing-classifier-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clothing-classifier-deployment
+  template:
+    metadata:
+      labels:
+        app: clothing-classifier-deployment
+    spec:
+      containers:
+      - name: clothing-classifier-deployment
+        image: 163323655172.dkr.ecr.us-east-1.amazonaws.com/clothing-classifier@sha256:b7491b4a8b8d92da86dba2ca6595f79ec2dd75218eb323c4950470b8566f7ab4 # update this with image on AWS ECR
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "1024Mi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
